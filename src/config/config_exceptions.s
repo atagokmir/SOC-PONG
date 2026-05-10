@@ -1,6 +1,6 @@
 .include    "../constants/address_map_arm.s"     
 .include    "../constants/defines.s"             
-.include    "../constants/interrupt_ID.s"
+.include    "../constants/interrupt_ids.s"
 
 /* This file:
  * 1. defines exception vectors for the A9 processor
