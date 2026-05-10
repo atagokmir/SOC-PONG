@@ -24,3 +24,5 @@
 
     .equ    INT_ENABLE, 0b01000000
     .equ    INT_DISABLE, 0b11000000
+
+    .equ    60_FPS_TIMER_LOAD, =3333333 // 200 MHz for second for timer, 1/60 second for each frame, so 200000000/60 = 3333333
