@@ -46,7 +46,7 @@ ENABLE_GIC:
  * 2. it takes R0 as a parameter to specify which interrupt sources to enable. Each bit in R0 corresponds to a specific interrupt source, and setting a bit to 1 enables that source to generate interrupts.
  * For example, if bit 0 corresponds to the timer interrupt and bit 1 corresponds to the pushbutton key interrupt, setting R0 to 0b11 (3 in decimal) would enable both the timer and pushbutton key interrupts.
  * 3. it takes R1 as a parameter to specify the target CPU(s) for the enabled interrupts. Each bit in R1 corresponds to a specific CPU, and setting a bit to 1 routes the enabled interrupts to that CPU.
- * Arguments: R0 (interrupt sources) and R1 (target CPU(s))
+ * Arguments: R0 (interrupt id in interrupt_ids.s) and R1 (target CPU(s))
  * Returns: None
  */
 
