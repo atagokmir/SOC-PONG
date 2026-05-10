@@ -99,18 +99,17 @@ CONFIG_GIC:
 
 .global CONFIG_STACK_POINTERS
 CONFIG_STACK_POINTERS:
-    PUSH {R1, LR}
-
+    // Since we are setting up stack pointers we can't use push and pop so we used BX command to return from the function instead of POP {PC}
     /* Set up stack pointers for IRQ and SVC processor modes */
     MOV R1, #0b11010010         // interrupts masked, MODE = IRQ
     MSR CPSR_c, R1              // change to IRQ mode
     LDR SP, =A9_ONCHIP_END - 3  // set IRQ stack to top of A9 onchip memory
     /* Change to SVC (supervisor) mode with interrupts disabled */
     MOV R1, #0b11010011         // interrupts masked, MODE = SVC
-    MSR CPSR, R1                // change to supervisor mode
+    MSR CPSR_c, R1              // change to supervisor mode
     LDR SP, =DDR_END - 3        // set SVC stack to top of DDR3 memory
 
-    POP {R1, PC}
+    BX LR
 
 
 /* The function ENABLE_IRQ:
