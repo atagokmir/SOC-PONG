@@ -1,5 +1,6 @@
 .include "../constants/address_map_arm.s"
 .include "../constants/defines.s"
+.include "../constants/interrupt_ids.s"
 .extern game_state
 .extern reset_flag
 

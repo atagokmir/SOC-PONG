@@ -1,5 +1,6 @@
 .include "../constants/address_map_arm.s"
 .include "../constants/defines.s"
+.include "../constants/interrupt_ids.s"
 .extern p1_score
 .extern p2_score
 .extern update_hex
@@ -12,6 +13,7 @@
 .extern p1_y
 .extern p2_y
 .extern reset_flag
+
 
 /* This file:
  * 1. provides the function to update the scores in the game and update the HEX display updating flag accordingly
