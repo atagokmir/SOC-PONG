@@ -20,12 +20,10 @@
 
  .global CONFIG_PUSHBUTTON_KEY
 CONFIG_PUSHBUTTON_KEY:
-    PUSH {R1-R2, LR}
+    PUSH {R1, LR}
 
     LDR R1, =KEY_BASE
-    MOV R2, #0xF
-    STR R2, [R1, #0xC] //Clearing edge capture register to clean any previous interrupts
-    MOV R2, R0
-    STR R2, [R1, #0x8] //Enabling specified the pushbutton keys in R0 to generate interrupts with writting 1 to the interrupt mask register (offset 0x8) of the pushbutton key parallel port.
+    STR R0, [R1, #0xC] //Clearing edge capture register to clean any previous interrupts with writing any value to the edge capture register (offset 0xC) of the pushbutton key parallel port.
+    STR R0, [R1, #0x8] //Enabling specified the pushbutton keys in R0 to generate interrupts with writting 1 to the interrupt mask register (offset 0x8) of the pushbutton key parallel port.
 
-    POP {R1-R2, PC}
+    POP {R1, PC}
