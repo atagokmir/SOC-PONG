@@ -29,62 +29,11 @@ TIMER_ISR:
     LDR R0, =game_state
     LDR R1, [R0]                // Load the current game state
 
-PLAYING_SCREEN:
+    PLAYING_SCREEN:
     CMP R1, #STATE_PLAYING
     BNE END_ISR
 
-    LDR R0, =KEY_BASE
-    LDR R4, [R0]              // Read the current key state and store it in R1
-    AND R1, R4, #0b0011     // Mask out bits 0 and 1 for player 1
-    AND R4, R4, #0b1100     // Mask out bits 2 and 3 for player 2 
-
-    LDR R2, =p1_y
-    LDR R3, [R2]
-
-    // Check player 1 input
-    CMP R1, #PLAYER1_UP
-    BEQ PLAYER1_UP_MOVE
-    CMP R1, #PLAYER1_DOWN
-    BEQ PLAYER1_DOWN_MOVE
-    B PLAYER2_CHECK
-
-PLAYER1_UP_MOVE:
-    CMP R3, #0
-    BLE PLAYER2_CHECK
-    SUB R3, R3, #PADDLE_SPEED
-    STR R3, [R2]
-    B PLAYER2_CHECK
-
-PLAYER1_DOWN_MOVE:
-    CMP R3, #(SCREEN_HEIGHT - 1 - PADDLE_HEIGHT)
-    BGE PLAYER2_CHECK
-    ADD R3, R3, #PADDLE_SPEED
-    STR R3, [R2]
-
-
-PLAYER2_CHECK:
-    LDR R2, =p2_y
-    LDR R3, [R2]
-
-    // Check player 2 input
-    CMP R4, #PLAYER2_UP
-    BEQ PLAYER2_UP_MOVE
-    CMP R4, #PLAYER2_DOWN
-    BEQ PLAYER2_DOWN_MOVE
-    B BALL_MOVE
-
-PLAYER2_UP_MOVE:
-    CMP R3, #0
-    BLE BALL_MOVE
-    SUB R3, R3, #PADDLE_SPEED
-    STR R3, [R2]
-    B BALL_MOVE
-
-PLAYER2_DOWN_MOVE:
-    CMP R3, #(SCREEN_HEIGHT - 1 - PADDLE_HEIGHT)
-    BGE BALL_MOVE
-    ADD R3, R3, #PADDLE_SPEED
-    STR R3, [R2]
+    BL MOVE_PADDLES             // Call the function to move the paddles based on player input
 
 BALL_MOVE:
     // Load current ball position

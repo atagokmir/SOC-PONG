@@ -41,7 +41,7 @@
     .equ STATE_WIN,     2
 
     //Key states (when pressed 0, active low)
-    .equ PLAYER1_UP,   0b10 //right button for player 1
-    .equ PLAYER1_DOWN, 0b01 //left button for player 1
-    .equ PLAYER2_UP,   0b1000 //right button for player 2
-    .equ PLAYER2_DOWN, 0b0100 //left button for player 2
+    .equ PLAYER_UP,   0b10 //right button for player both players since we allign the bits in the code to have same bit positions for both players
+    .equ PLAYER_DOWN, 0b01 //left button for player both players since we allign the bits in the code to have same bit positions for both players
+    .equ NO_INPUT,    0b00
+    .equ INVALID_INPUT, 0b11 //both buttons pressed at the same time, we will ignore this input in the code
