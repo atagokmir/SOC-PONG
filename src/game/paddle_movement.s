@@ -80,7 +80,7 @@ MOVE_PLAYER:
     B END_MOVE_PLAYER
 
     PLAYER_DOWN_MOVE:
-    CMP R2, #(SCREEN_HEIGHT - 1 - PADDLE_HEIGHT) // Check if the paddle is at the bottom edge of the screen
+    CMP R2, #(SCREEN_HEIGHT - PADDLE_HEIGHT) // Check if the paddle is at the bottom edge of the screen
     BGE END_MOVE_PLAYER 
     ADD R2, R2, #PADDLE_SPEED // Move the paddle down by adding the speed to the current position
     STR R2, [R1]          // Store the updated y position back to memory
