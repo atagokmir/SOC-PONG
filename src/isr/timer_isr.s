@@ -21,7 +21,7 @@
 
 .global TIMER_ISR
 TIMER_ISR:
-    PUSH {RO-R1, LR}
+    PUSH {R0-R1, LR}
 
     LDR R0, =MPCORE_PRIV_TIMER
     MOV R1, #1
@@ -46,7 +46,4 @@ TIMER_ISR:
     MOV R1, #1
     STR R1, [R0]                // Set frame_ready to 1 to indicate that the game state has been updated and the screen can be redrawn
 
-    POP {RO-R1, PC}
-
-
-
+    POP {R0-R1, PC}

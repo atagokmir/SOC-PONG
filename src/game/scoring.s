@@ -23,7 +23,7 @@
 UPDATE_SCORES:
     PUSH {R1-R2, LR}
 
-    CMP R0, 1
+    CMP R0, #1
     LDREQ R2, =p1_score
     LDRNE R2, =p2_score
 
