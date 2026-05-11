@@ -34,25 +34,7 @@ TIMER_ISR:
     BNE END_ISR
 
     BL MOVE_PADDLES             // Call the function to move the paddles based on player input
-
-BALL_MOVE:
-    // Load current ball position
-    LDR R0, =ball_x
-    LDR R1, [R0]
-    LDR R2, =ball_y
-    LDR R3, [R2]
-    
-    // Load ball velocity
-    LDR R4, =ball_dx
-    LDR R5, [R4]
-    LDR R6, =ball_dy
-    LDR R7, [R6]
-
-    // Calculate ball position
-    ADD R1, R1, R5      // Update ball_x
-    ADD R3, R3, R7      // Update ball_y
-    STR R1, [R0]
-    STR R3, [R2]
+    BL MOVE_BALL                // Call the function to move the ball based on its velocity
 
 CHECK_WALL_COLLISIONS:
     // Check for collision with top and bottom walls
