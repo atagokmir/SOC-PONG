@@ -21,6 +21,7 @@
 
 .global TIMER_ISR
 TIMER_ISR:
+    PUSH {RO-R1, LR}
 
     LDR R0, =MPCORE_PRIV_TIMER
     MOV R1, #1
@@ -34,21 +35,18 @@ TIMER_ISR:
     BNE END_ISR
 
     BL MOVE_PADDLES             // Call the function to move the paddles based on player input
+
     BL MOVE_BALL                // Call the function to move the ball based on its velocity
 
-CHECK_WALL_COLLISIONS:
-    // Check for collision with top and bottom walls
-    CMP R3, #0          // Check collision with top wall
-    BLE WALL_COLLISION
-    CMP R3, #(SCREEN_HEIGHT - BALL_SIZE - 1)        // Check collision with bottom wall
-    BLT PADDLE_COLLISIONS
-WALL_COLLISION:
-    RSB R7, R7, #0      // Reverse ball_dy
-    STR R7, [R6]
+    BL CHECK_COLLISIONS         // Call the function to check for collisions and update ball velocity and scores
 
-//code for checking paddle collisions and scoring would go here
 
-    B END_ISR
+    END_ISR:
+    LDR R0, =frame_ready
+    MOV R1, #1
+    STR R1, [R0]                // Set frame_ready to 1 to indicate that the game state has been updated and the screen can be redrawn
+
+    POP {RO-R1, PC}
 
 
 

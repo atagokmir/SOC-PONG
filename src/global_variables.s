@@ -41,3 +41,6 @@
 
     .global frame_ready
     frame_ready:    .word 0     // 0 = frame not ready, 1 = frame ready to be drawn
+
+    .global update_hex
+    update_hex:     .word 0     // 0 = no need to update HEX display, 1 = update HEX display

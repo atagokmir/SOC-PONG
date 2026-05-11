@@ -45,3 +45,10 @@
     .equ PLAYER_DOWN, 0b01 //left button for player both players since we allign the bits in the code to have same bit positions for both players
     .equ NO_INPUT,    0b00
     .equ INVALID_INPUT, 0b11 //both buttons pressed at the same time, we will ignore this input in the code
+
+    // Initial positions and speeds for the ball and paddles are defined in global_variables.s
+    .equ BALL_INITIAL_DX, 2
+    .equ BALL_INITIAL_DY, 1
+    .equ BALL_INITIAL_X, 158 // middle of the screen (320/2) - 2 since ball 5 pixels wide
+    .equ BALL_INITIAL_Y, 118 // middle of the screen (240/2) - 2 since ball 5 pixels tall
+    .equ PADDLE_INITIAL_Y, 105 // middle of the screen (120 - PADDLE_HEIGHT/2)
