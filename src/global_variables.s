@@ -13,7 +13,7 @@
     ball_y:         .word 120   // start: middle of the screen (240/2)
 
     .global ball_dx
-    ball_dx:        .word 2.0   // the speed of the ball in x direction
+    ball_dx:        .word 2   // the speed of the ball in x direction
 
     .global ball_dy
     ball_dy:        .word 1     // the speed of the ball in y direction
@@ -22,7 +22,7 @@
     p1_y:           .word 105   // start: middle of the screen (120 - PADDLE_HEIGHT/2)
 
     .global p2_y
-    p2_y:           .word 105.  // start: middle of the screen (120 - PADDLE_HEIGHT/2)
+    p2_y:           .word 105   // start: middle of the screen (120 - PADDLE_HEIGHT/2)
 
     .global p1_score
     p1_score:       .word 0
