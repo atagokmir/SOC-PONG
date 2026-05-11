@@ -37,10 +37,9 @@ DRAW_ON_HEX:
     ORR R1, R1, R3 // Combine player 1 and player 2 scores into one value
 
     /* Line between player 1 and player 2 scores on the hex display */
-    MOV R3, #0x40 // 0b01000000 to light up the middle segment of HEX2
+    MOV R3, #0x40 // 0b01000000 to light up the middle segment of HEX
     LSL R3, R3, #8 // Shift to the correct position for HEX1
-    ORR R1, R1, R3 // Combine with the existing score value
-    LSL R3, R3, #8 // Shift to the correct position for HEX2
+    ORR R3, R3, R3, LSL #8 // Shift again to the correct position for HEX2 and combine with the existing value  
     ORR R1, R1, R3 // Combine with the existing score value
 
     STR R1, [R0] // Write the combined value to the HEX display

@@ -21,6 +21,8 @@
 CLEAR_SCREEN:
     PUSH {R1-R4, LR}
 
+    ORR R0, R0, R0, LSL #16   // Since we use 32 bits to represent each pixel, we need to replicate the color value in the upper 16 bits as well to write the full 32-bit value to each pixel
+
     MOV R1, #0 // Load outer loop counter (y) with 0
 
     LDR R2, =back_buffer // Load address of back buffer variable into R3
