@@ -33,6 +33,8 @@ TITLE_SCREEN:
     CMP R1, #STATE_TITLE
     BNE WIN_SCREEN
     MOV R1, #STATE_PLAYING    // If we are in the title screen, start the game
+    MOV R0, #KEYS_IRQ
+    BL DISABLE_INTERRUPT_SOURCE   // Disable keys interrupt since we only use it to start the game and going to start menu screen after winning
     B END_ISR
 
 WIN_SCREEN:
@@ -44,6 +46,7 @@ WIN_SCREEN:
     STR R3, [R2]              // Set the reset flag to 1 to reset the game state in the main game loop
 
 END_ISR:
+    LDR R0, =game_state
     STR R1, [R0]                // Store the updated game state back to memory
 
     POP {R0-R3, PC}

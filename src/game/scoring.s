@@ -72,6 +72,12 @@ END_GAME:
     MOV R2, #STATE_WIN
     STR R2, [R1]
 
+    // Set keys interrupts to be enabled again to allow players to start a new game by pressing a button
+    MOV R0, #KEYS_IRQ
+    MOV R1, #CPU0
+
+    BL CONFIG_INTERRUPT_SOURCE
+
     POP {R1-R2, PC}
 
 
