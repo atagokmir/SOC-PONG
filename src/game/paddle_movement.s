@@ -69,21 +69,21 @@ MOVE_PLAYER:
     LDR R2, [R1]             // Load current y position value of the paddle to R3
 
     // Check player input
-    CMP R0, #PLAYER_UP
+    CMP R0, #PLAYER_UP      // Check if the command is to move up
     BNE PLAYER_DOWN_MOVE
 
     PLAYER_UP_MOVE:
-    CMP R2, #0
+    CMP R2, #0          // Check if the paddle is at the top edge of the screen
     BLE END_MOVE_PLAYER
-    SUB R2, R2, #PADDLE_SPEED
-    STR R2, [R1]
+    SUB R2, R2, #PADDLE_SPEED // Move the paddle up by subtracting the speed from the current position
+    STR R2, [R1]           // Store the updated y position back to memory
     B END_MOVE_PLAYER
 
     PLAYER_DOWN_MOVE:
-    CMP R2, #(SCREEN_HEIGHT - 1 - PADDLE_HEIGHT)
-    BGE END_MOVE_PLAYER
-    ADD R2, R2, #PADDLE_SPEED
-    STR R2, [R1]
+    CMP R2, #(SCREEN_HEIGHT - 1 - PADDLE_HEIGHT) // Check if the paddle is at the bottom edge of the screen
+    BGE END_MOVE_PLAYER 
+    ADD R2, R2, #PADDLE_SPEED // Move the paddle down by adding the speed to the current position
+    STR R2, [R1]          // Store the updated y position back to memory
 
     END_MOVE_PLAYER:
     POP {R2, PC}
