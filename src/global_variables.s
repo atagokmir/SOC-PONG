@@ -7,10 +7,10 @@
     game_state:     .word 0     // 0 = TITLE, 1 = PLAYING, 2 = WIN
 
     .global ball_x
-    ball_x:         .word 160   // start: middle of the screen (320/2)
+    ball_x:         .word 158   // start: middle of the screen (320/2) - 2 since ball 5 pixels wide
 
     .global ball_y
-    ball_y:         .word 120   // start: middle of the screen (240/2)
+    ball_y:         .word 118   // start: middle of the screen (240/2) - 2 since ball 5 pixels tall
 
     .global ball_dx
     ball_dx:        .word 2   // the speed of the ball in x direction
