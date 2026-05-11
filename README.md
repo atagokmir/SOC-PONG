@@ -3,7 +3,7 @@
 A two-player Pong game implemented entirely in **ARM Assembly** for the **DE1-SoC FPGA development board**.
 
 <p align="center">
-  <img src="https://www.terasic.com.tw/attachment/archive/836/image/image_72_thumb.jpg" alt="DE1-SoC Board" width="600"/>
+  <img src="https://www.rocketboards.org/foswiki/pub/Documentation/TerasicDE1SoCDevelopmentAndEducationBoard/de1-soc.jpg" alt="DE1-SoC Board" width="600"/>
 </p>
 
 ---
