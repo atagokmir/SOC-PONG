@@ -11,30 +11,30 @@
 SERVICE_IRQ:                            
         PUSH {R0-R12, LR}             
 
-/* Read the ICCIAR from the CPU interface */
+        /* Read the ICCIAR from the CPU interface */
         LDR R4, =MPCORE_GIC_CPUIF   
         LDR R5, [R4, #ICCIAR]       // read the interrupt ID
 
-KEY_CHECK:
+        KEY_CHECK:
         CMP R5, #KEYS_IRQ
         BNE TIMER_CHECK
 
         BL KEY_ISR
         B EXIT_IRQ
 
-TIMER_CHECK:
+        TIMER_CHECK:
         CMP R5, #MPCORE_PRIV_TIMER_IRQ
         BNE UNKNOWN_IRQ
 
         BL TIMER_ISR
         B EXIT_IRQ
 
-UNKNOWN_IRQ:
+        UNKNOWN_IRQ:
         /* Handle spurious interrupts or other unhandled cases here */
         B UNKNOWN_IRQ
 
-EXIT_IRQ:                               
-/* Write to the End of Interrupt Register (ICCEOIR) */
+        EXIT_IRQ:                               
+        /* Write to the End of Interrupt Register (ICCEOIR) */
         STR R5, [R4, #ICCEOIR]      
 
         POP {R0-R12, LR}             

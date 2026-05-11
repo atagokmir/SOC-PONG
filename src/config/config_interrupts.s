@@ -5,9 +5,10 @@
 /* This file:
  * 1. configures the generic interrupt controller (GIC) for the ARM A9 processor
  * 2. includes function to configure the GIC to enable interrupts for specified sources
- * 3. includes function to enable the GIC itself to allow it to forward interrupts to the processor
- * 4. includes function to set up stack pointers for IRQ and SVC processor modes
- * 5. includes function to enable IRQ interrupts 
+ * 3. includes function to enable the GIC for given interrupt sources to allow it to forward interrupts to the processor
+ * 4. includes function to disable interrupts for specified sources in the GIC
+ * 5. includes function to set up stack pointers for IRQ and SVC processor modes
+ * 6. includes function to enable IRQ interrupts 
  */
 
 
@@ -41,7 +42,7 @@ ENABLE_GIC:
     POP {R0-R1, PC}
 
 
-/* The function CONFIG_GIC:
+/* The function CONFIG_INTERRUPT_SOURCE:
  * 1. configures the GIC to enable interrupts for specified sources and routes them to desired CPU(s).
  * 2. it takes R0 as a parameter to specify which interrupt sources to enable. Each bit in R0 corresponds to a specific interrupt source, and setting a bit to 1 enables that source to generate interrupts.
  * For example, if bit 0 corresponds to the timer interrupt and bit 1 corresponds to the pushbutton key interrupt, setting R0 to 0b11 (3 in decimal) would enable both the timer and pushbutton key interrupts.
@@ -51,8 +52,8 @@ ENABLE_GIC:
  */
 
 
-.global CONFIG_GIC
-CONFIG_GIC:
+.global CONFIG_INTERRUPT_SOURCE
+CONFIG_INTERRUPT_SOURCE:
     PUSH {R2-R5, LR}
 
     /* Configure Interrupt Set-Enable Registers (ICDISERn). 
@@ -69,9 +70,7 @@ CONFIG_GIC:
 
 	/* now that we have the register address (R4) and value (R2), we need to set the
 	 * correct bit in the GIC register */
-    LDR	R3, [R4]	        // read current register value
-    ORR	R3, R3, R2          // set the enable bit
-    STR	R3, [R4]            // store the new register value
+    STR	R2, [R4]            // store the new register value
 
     /* Configure Interrupt Processor Targets Register (ICDIPTRn)
      * reg_offset = integer_div(N / 4) * 4
@@ -86,6 +85,37 @@ CONFIG_GIC:
 	 * the appropriate byte */
 	STRB R1, [R4]
     
+    POP {R2-R5, PC}
+
+
+/* The function DISABLE_INTERRUPT_SOURCE:
+ * 1. configures the GIC to disable interrupts for specified sources.
+ * 2. it takes R0 as a parameter to specify which interrupt sources to disable. Each bit in R0 corresponds to a specific interrupt source, and setting a bit to 1 disables that source from generating interrupts.
+ * For example, if bit 0 corresponds to the timer interrupt and bit 1 corresponds to the pushbutton key interrupt, setting R0 to 0b11 (3 in decimal) would disable both the timer and pushbutton key interrupts.
+ * Arguments: R0 (interrupt id in interrupt_ids.s)
+ * Returns: None
+ */
+
+
+.global DISABLE_INTERRUPT_SOURCE
+DISABLE_INTERRUPT_SOURCE:
+    PUSH {R2-R5, LR}
+    /* Configure Interrupt Clear-Enable Registers (ICDICERn). 
+    * reg_offset = (integer_div(N / 32) * 4
+    * value = 1 << (N mod 32) */
+    LSR	R4, R0, #3          // calculate reg_offset
+    BIC	R4, R4, #3          // R4 = reg_offset
+	LDR	R2, =MPCORE_GIC_DIST+ICDICER
+	ADD	R4, R2, R4          // R4 = address of ICDICER
+    
+    AND	R2, R0, #0x1F       // N mod 32
+	MOV	R5, #1              // move 1 to disable
+    LSL	R2, R5, R2          // R2 = value
+
+	/* now that we have the register address (R4) and value (R2), we need to set the
+	 * correct bit in the GIC register */
+    STR	R2, [R4]            // store the new register value
+
     POP {R2-R5, PC}
 
 
