@@ -52,7 +52,7 @@ DRAW_ON_HEX:
     B END_DRAW_ON_HEX
 
     OVER_SCREEN:
-    LDR R1, =0x5C1C7B50 // Hex value to display "OVER" on the hex display
+    LDR R1, =0x3F3E7931 // Hex value to display "OVER" on the hex display
 
     END_DRAW_ON_HEX:
     STR R1, [R0] // Write the combined value to the HEX display
