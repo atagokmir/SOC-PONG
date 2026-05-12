@@ -69,13 +69,22 @@ DRAW_WIN:
 
     LDR R3, =p1_score
     LDR R3, [R3]
-    ADD R3, R3, #48       // ASCII conversion for score digit
     LDR R4, =FPGA_CHAR_BASE
-    MOV R5, #30           // y = 30 to be below the win message
-    LSL R5, R5, #7        // y * 128
-    ADD R5, R5, #39       // x=39
-    ADD R4, R4, R5
+    MOV R1, #30           // y = 30
+    LSL R1, R1, #7        // y * 128
+    ADD R1, R1, #39       // x = 39
+    ADD R4, R4, R1
+    CMP R5, #1            // Is P1 the winner? (score = 10)
+    BNE P1_SINGLE_DIGIT
+    MOV R3, #'1'
+    STRB R3, [R4], #1
+    MOV R3, #'0'
     STRB R3, [R4]
+    B P1_SCORE_DONE
+P1_SINGLE_DIGIT:
+    ADD R3, R3, #48
+    STRB R3, [R4]
+P1_SCORE_DONE:
 
     // P2 score writing
     LDR R0, =score_p2_str
@@ -85,13 +94,22 @@ DRAW_WIN:
 
     LDR R3, =p2_score
     LDR R3, [R3]
-    ADD R3, R3, #48       // ASCII conversion for score digit
     LDR R4, =FPGA_CHAR_BASE
-    MOV R5, #30           // y = 30 to be below the win message
-    LSL R5, R5, #7        // y * 128
-    ADD R5, R5, #50       // x=50
-    ADD R4, R4, R5
+    MOV R1, #30           // y = 30
+    LSL R1, R1, #7        // y * 128
+    ADD R1, R1, #50       // x = 50
+    ADD R4, R4, R1
+    CMP R5, #2            // Is P2 the winner? (score = 10)
+    BNE P2_SINGLE_DIGIT
+    MOV R3, #'1'
+    STRB R3, [R4], #1
+    MOV R3, #'0'
     STRB R3, [R4]
+    B P2_SCORE_DONE
+P2_SINGLE_DIGIT:
+    ADD R3, R3, #48
+    STRB R3, [R4]
+P2_SCORE_DONE:
 
     POP {R0-R5, PC}
 
