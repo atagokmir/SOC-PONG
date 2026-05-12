@@ -72,7 +72,7 @@ DRAW_WIN:
     LDR R4, =FPGA_CHAR_BASE
     MOV R1, #30           // y = 30
     LSL R1, R1, #7        // y * 128
-    ADD R1, R1, #39       // x = 39
+    ADD R1, R1, #35       // x = 35
     ADD R4, R4, R1
     CMP R5, #1            // Is P1 the winner? (score = 10)
     BNE P1_SINGLE_DIGIT
@@ -97,7 +97,7 @@ P1_SCORE_DONE:
     LDR R4, =FPGA_CHAR_BASE
     MOV R1, #30           // y = 30
     LSL R1, R1, #7        // y * 128
-    ADD R1, R1, #50       // x = 50
+    ADD R1, R1, #46       // x = 46
     ADD R4, R4, R1
     CMP R5, #2            // Is P2 the winner? (score = 10)
     BNE P2_SINGLE_DIGIT
