@@ -64,7 +64,7 @@ SWAP_BUFFERS:
 
     // Wait for vertical sync S bit will be set to 1 when in vertical sync, so we wait until it is 0 before proceeding to ensure we are in the vertical blanking interval
     WAIT_VSYNC:
-    LDR R1, [R0] // Read status register
+    LDR R1, [R0, #0xC] // Read status register
     TST R1, #1 // Check if S bit is set
     BNE WAIT_VSYNC // If S bit is set, we are still in vertical sync, so keep waiting
 

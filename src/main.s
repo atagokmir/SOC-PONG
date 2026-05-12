@@ -70,7 +70,7 @@ _start:
     BL CONFIG_TIMER
 
     // Configure the VGA controller
-    BL CONFIG_VGA
+    BL CONFIG_PBC
 
     // Enable interrupts globally on the ARM A9 processor
     BL ENABLE_IRQ
@@ -93,28 +93,39 @@ _start:
         CMP R0, #1
         BLEQ RESET_GAME
 
+        // Clear the screen for the current frame
+        LDR R0, =COLOR_WHITE
+        BL CLEAR_SCREEN
+
         // Render the current game state (TITLE, PLAYING, WIN)
         LDR R0, =game_state
         LDR R0, [R0]
 
-        // Clear the screen for the current frame
-        BL CLEAR_SCREEN
-
         // Check the game state and call the appropriate drawing function
         CMP R0, #STATE_TITLE
-        BLEQ DRAW_TITLE
+        BNE IS_STATE_PLAYING 
+        BL DRAW_TITLE
+        B END_CHECK_GAME_STATE
 
+        IS_STATE_PLAYING:
         CMP R0, #STATE_PLAYING
-        BLEQ DRAW_GAME
+        BNE IS_STATE_WIN
+        LDR R0, =COLOR_BLACK // Pass the color black to draw the ball
+        MOV R1, R0 // Pass the color black to draw the paddles as well
+        BL DRAW_GAME
+        B END_CHECK_GAME_STATE
 
+        IS_STATE_WIN:
         CMP R0, #STATE_WIN
-        BLEQ DRAW_WIN
+        BNE END_CHECK_GAME_STATE
+        BL DRAW_WIN
 
+        END_CHECK_GAME_STATE:
         // Update the HEX display with the current scores if any player has scored
         LDR R0, =update_hex
         LDR R0, [R0]
         CMP R0, #1
-        BLEQ UPDATE_HEX
+        BLEQ DRAW_ON_HEX
 
         BL SWAP_BUFFERS
 
