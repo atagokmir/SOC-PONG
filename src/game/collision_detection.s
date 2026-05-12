@@ -100,7 +100,8 @@ CHECK_PADDLE_COLLISIONS:
     BLE CHECK_REAL_COLLISION
 
     // Check collision with player 2's paddle
-    CMP R0, #(P2_X - BALL_SIZE - 1) // Check if ball is at the x position of player 2's paddle
+    LDR R8, =(P2_X - BALL_SIZE - 1) // Load the x position of the collision line for player 2's paddle into R8
+    CMP R0, R8 // Check if ball is at the x position of player 2's paddle
     MOVGE R5, #2 // Set flag to check for possible collision with player 2's paddle
     BGE CHECK_REAL_COLLISION
 
@@ -140,7 +141,7 @@ CHECK_PADDLE_COLLISIONS:
 
 
 CHECK_SCORE:
-    PUSH {R1-R4, LR}
+    PUSH {R1-R5, LR}
 
     // Check if player 2 scored (ball passed left edge)
     CMP R0, #0
@@ -156,7 +157,8 @@ CHECK_SCORE:
 
     CHECK_PLAYER_1_SCORE:
     // Check if player 1 scored (ball passed right edge)
-    CMP R0, #(SCREEN_WIDTH - BALL_SIZE)
+    LDR R5, =(SCREEN_WIDTH - BALL_SIZE)
+    CMP R0, R5
     BLT END_CHECK_SCORE // If ball has not passed right edge, end score check
 
     // Player 1 scored
@@ -166,7 +168,7 @@ CHECK_SCORE:
     BL RESET_BALL // Reset ball position and velocity after score
 
     END_CHECK_SCORE:
-    POP {R1-R4, PC}
+    POP {R1-R5, PC}
 
 
 /* The function REVERSE_Y_VELOCITY:
