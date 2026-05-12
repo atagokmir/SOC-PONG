@@ -27,7 +27,7 @@ DRAW_TITLE:
     PUSH {R0-R4, LR}
 
     LDR R0, =title_str
-    MOV R1, #36            // x = (80-8)/2 since title is 8 characters long
+    MOV R1, #34            // x = (80-12)/2 since title is 12 characters long
     MOV R2, #25            // y = 25 to be in the upper half of the screen
     BL WRITE_STRING
 
@@ -175,7 +175,7 @@ CLEAR_CHAR_BUFFER:
 
 /* data section for strings used in the title and win screens, since special to this file, not in globals or constants */
 .data
-title_str:    .asciz "SOC-PONG"
+title_str:    .asciz "SOC-MEF-PONG"
 press_str:    .asciz "PRESS ANY KEY TO START"
 p1_wins_str:  .asciz "PLAYER 1 WINS!"
 p2_wins_str:  .asciz "PLAYER 2 WINS!"
