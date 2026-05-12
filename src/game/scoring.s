@@ -144,4 +144,12 @@ RESET_GAME:
     LDR R0, =update_hex
     STR R1, [R0]
 
+    // Clear edge capture and re-enable key interrupt so the title screen can respond to key presses
+    LDR R0, =KEY_BASE
+    MOV R1, #0xF
+    STR R1, [R0, #0xC]    // Clear any accumulated key edges before re-enabling
+    MOV R0, #KEYS_IRQ
+    MOV R1, #CPU0
+    BL CONFIG_INTERRUPT_SOURCE
+
     POP {R0-R1, PC}

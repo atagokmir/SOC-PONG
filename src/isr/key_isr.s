@@ -48,6 +48,8 @@ WIN_SCREEN:
     LDR R2, =reset_flag
     MOV R3, #1
     STR R3, [R2]              // Set the reset flag to 1 to reset the game state in the main game loop
+    MOV R0, #KEYS_IRQ
+    BL DISABLE_INTERRUPT_SOURCE   // Disable key interrupt to prevent button bounce from skipping the title screen
     MOV R2, #1
 
 END_ISR:
