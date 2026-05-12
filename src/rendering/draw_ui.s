@@ -3,6 +3,7 @@
 .extern winner
 .extern p1_score
 .extern p2_score
+.extern state_changed
 
 
 /* This file:
@@ -116,6 +117,42 @@ WRITE_STRING:
 
     WRITE_DONE:
     POP {R3-R5, PC}
+
+
+/* The function CLEAR_CHAR_BUFFER:
+ * 1. clears the character buffer by writing spaces to all positions.
+ * 2. it takes no parameters and returns nothing.
+ * Arguments: None
+ * Returns: None
+ */
+
+
+.global CLEAR_CHAR_BUFFER
+CLEAR_CHAR_BUFFER:
+    PUSH {R0-R3, LR}
+
+    //Clear state change flag since we are redrawing the whole screen
+    LDR R0, =state_changed
+    MOV R1, #0
+    STR R1, [R0]
+
+    LDR R0, =FPGA_CHAR_BASE
+    MOV R1, #0              // satır sayacı
+    CHAR_CLEAR_Y:
+        MOV R2, #0          // sütun sayacı
+        CHAR_CLEAR_X:
+            MOV R3, #0x20   // boşluk karakteri
+            STRB R3, [R0]
+            ADD R0, R0, #1
+            ADD R2, R2, #1
+            CMP R2, #80
+            BNE CHAR_CLEAR_X
+        ADD R0, R0, #48     // 128 - 80 = 48 byte atla (padding)
+        ADD R1, R1, #1
+        CMP R1, #60
+        BNE CHAR_CLEAR_Y
+
+    POP {R0-R3, PC}
 
 
 /* data section for strings used in the title and win screens, since special to this file, not in globals or constants */

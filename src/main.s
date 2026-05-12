@@ -4,7 +4,8 @@
 .extern reset_flag
 .extern frame_ready
 .extern update_hex
-.extern game_state         
+.extern game_state
+.extern state_changed         
 
 
 /*********************************************************************************
@@ -96,6 +97,12 @@ _start:
         // Clear the screen for the current frame
         LDR R0, =COLOR_WHITE
         BL CLEAR_SCREEN
+
+        //Clear the character buffer for the current frame if the game state has changed
+        LDR R0, =state_changed
+        LDR R0, [R0]
+        CMP R0, #1
+        BLEQ CLEAR_CHAR_BUFFER
 
         // Render the current game state (TITLE, PLAYING, WIN)
         LDR R0, =game_state

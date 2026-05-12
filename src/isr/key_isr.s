@@ -3,6 +3,7 @@
 .include "../constants/interrupt_ids.s"
 .extern game_state
 .extern reset_flag
+.extern state_changed
 
 
 /* This file:
@@ -29,11 +30,13 @@ KEY_ISR:
     /* Handle the key press event here */
     LDR R0, =game_state
     LDR R1, [R0]                // Load the current game state
+    MOV R2, #0                   // Default to 0 (no state change)
 
 TITLE_SCREEN:
     CMP R1, #STATE_TITLE
     BNE WIN_SCREEN
     MOV R1, #STATE_PLAYING    // If we are in the title screen, start the game
+    MOV R2, #1
     MOV R0, #KEYS_IRQ
     BL DISABLE_INTERRUPT_SOURCE   // Disable keys interrupt since we only use it to start the game and going to start menu screen after winning
     B END_ISR
@@ -45,9 +48,11 @@ WIN_SCREEN:
     LDR R2, =reset_flag
     MOV R3, #1
     STR R3, [R2]              // Set the reset flag to 1 to reset the game state in the main game loop
+    MOV R2, #1
 
 END_ISR:
     LDR R0, =game_state
     STR R1, [R0]                // Store the updated game state back to memory
-
+    LDR R0, =state_changed
+    STR R2, [R0]                // Store the updated state changed flag back to memory
     POP {R0-R3, PC}
