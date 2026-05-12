@@ -74,6 +74,12 @@ END_GAME:
     MOV R2, #STATE_WIN
     STR R2, [R1]
 
+    // Clear Edge Capture Register for KEYS to prevent any pending key interrupts from affecting the game after it has ended
+    // Edge capture temizle - biriken key interrupt'ları sil
+    LDR R1, =KEY_BASE
+    MOV R2, #0xF
+    STR R2, [R1, #0xC]
+
     // Set keys interrupts to be enabled again to allow players to start a new game by pressing a button
     MOV R0, #KEYS_IRQ
     MOV R1, #CPU0

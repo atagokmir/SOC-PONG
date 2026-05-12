@@ -73,7 +73,7 @@ MOVE_PLAYER:
     BNE PLAYER_DOWN_MOVE
 
     PLAYER_UP_MOVE:
-    CMP R2, #0          // Check if the paddle is at the top edge of the screen
+    CMP R2, #1          // Check if the paddle is at the top edge of the screen
     BLE END_MOVE_PLAYER
     SUB R2, R2, #PADDLE_SPEED // Move the paddle up by subtracting the speed from the current position
     STR R2, [R1]           // Store the updated y position back to memory

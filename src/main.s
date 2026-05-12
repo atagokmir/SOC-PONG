@@ -95,7 +95,7 @@ _start:
         BLEQ RESET_GAME
 
         // Clear the screen for the current frame
-        LDR R0, =COLOR_WHITE
+        LDR R0, =COLOR_BLACK
         BL CLEAR_SCREEN
 
         //Clear the character buffer for the current frame if the game state has changed
@@ -117,8 +117,8 @@ _start:
         IS_STATE_PLAYING:
         CMP R0, #STATE_PLAYING
         BNE IS_STATE_WIN
-        LDR R0, =COLOR_BLACK // Pass the color black to draw the ball
-        MOV R1, R0 // Pass the color black to draw the paddles as well
+        LDR R0, =COLOR_WHITE // Pass the color white to draw the ball
+        MOV R1, R0 // Pass the color white to draw the paddles as well
         BL DRAW_GAME
         B END_CHECK_GAME_STATE
 
