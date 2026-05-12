@@ -43,7 +43,7 @@
     frame_ready:    .word 0     // 0 = frame not ready, 1 = frame ready to be drawn
 
     .global update_hex
-    update_hex:     .word 0     // 0 = no need to update HEX display, 1 = update HEX display
+    update_hex:     .word 1     // 0 = no need to update HEX display, 1 = update HEX display
 
     .global state_changed
     state_changed:  .word 0     // 0 = game state has not changed, 1 = game state has changed and needs to be redrawn
