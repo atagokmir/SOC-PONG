@@ -43,14 +43,14 @@ DRAW_GAME:
     MOV R0, R1 // Set R0 to paddles color for drawing
 
     // Load paddle 1 cordinates for drawing
-    MOV R2, #P1_X // Load paddle 1 x position into R2 since it's constant dont need to load from memory
+    LDR R2, =P1_X // Load paddle 1 x position into R2 since it's constant dont need to load from memory
     LDR R3, =p1_y
     LDR R3, [R3] // Load paddle 1 y position into R3
 
     BL DRAW_PADDLE // Call function to draw paddle 1 at (R2, R3) with color in R0
 
     // Load paddle 2 cordinates for drawing
-    MOV R2, #P2_X // Load paddle 2 x position into R2 since it's constant dont need to load from memory
+    LDR R2, =P2_X // Load paddle 2 x position into R2 since it's constant dont need to load from memory
     LDR R3, =p2_y
     LDR R3, [R3] // Load paddle 2 y position into R3
 
