@@ -29,9 +29,10 @@ MOVE_PADDLES:
      */
     LDR R0, =KEY_BASE
     LDR R1, [R0]              // Read the current key state and store it in R1
-    AND R2, R1, #0b0011     // Mask out bits 0 and 1 for player 1
-    AND R3, R1, #0b1100     // Mask out bits 2 and 3 for player 2
-    LSR R3, R3, #2            // Shift player 2 bits to the right by 2 to align with player 1 bits
+    AND R2, R1, #0b1100     // Mask out bits 0 and 1 for player 1
+    LSR R2, R2, #2            // Shift player 1 bits to the right by 2 to align with player 2 bits
+    AND R3, R1, #0b0011     // Mask out bits 2 and 3 for player 2
+
 
     CHECK_PLAYER1:
     CMP R2, #NO_INPUT
